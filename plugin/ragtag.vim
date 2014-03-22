@@ -21,7 +21,7 @@ if has("autocmd")
   augroup END
 endif
 
-inoremap <silent> <Plug>ragtagHtmlComplete <C-R>=<SID>htmlEn()<CR><C-X><C-O><C-P><C-R>=<SID>htmlDis()<CR><C-N>
+inoremap <silent> <Plug>ragtagHtmlComplete <C-R>=<SID>htmlEn()<CR><C-r><C-O><C-P><C-R>=<SID>htmlDis()<CR><C-N>
 
 " Public interface, for if you have your own filetypes to activate on
 function! RagtagInit()
@@ -40,43 +40,43 @@ function! s:Init()
   if s:subtype() == "xml"
     imap <script> <buffer> <SID>doctype <SID>xmlversion
   elseif exists("+omnifunc")
-    inoremap <silent> <buffer> <SID>doctype  <C-R>=<SID>htmlEn()<CR><!DOCTYPE<C-X><C-O><C-P><C-R>=<SID>htmlDis()<CR><C-N><C-R>=<SID>doctypeSeek()<CR>
+    inoremap <silent> <buffer> <SID>doctype  <C-R>=<SID>htmlEn()<CR><!DOCTYPE<C-r><C-O><C-P><C-R>=<SID>htmlDis()<CR><C-N><C-R>=<SID>doctypeSeek()<CR>
   elseif s:subtype() == "xhtml"
     imap <script> <buffer> <SID>doctype <SID>xhtmltrans
   else
     imap <script> <buffer> <SID>doctype <SID>html5
   endif
-  imap <script> <buffer> <C-X>! <SID>doctype
+  imap <script> <buffer> <C-r>! <SID>doctype
 
-  imap <silent> <buffer> <C-X># <C-R>=<SID>charsetTag()<CR>
-  inoremap <silent> <buffer> <SID>HtmlComplete <C-R>=<SID>htmlEn()<CR><C-X><C-O><C-P><C-R>=<SID>htmlDis()<CR><C-N>
-  imap     <buffer> <C-X>H <SID>HtmlComplete
-  inoremap <silent> <buffer> <C-X>$ <C-R>=<SID>javascriptIncludeTag()<CR>
-  inoremap <silent> <buffer> <C-X>@ <C-R>=<SID>stylesheetTag()<CR>
-  inoremap <silent> <buffer> <C-X><Space> <Esc>ciW<Lt><C-R>"<C-R>=<SID>tagextras()<CR>></<C-R>"><Esc>b2hi
-  inoremap <silent> <buffer> <C-X><CR> <Esc>ciW<Lt><C-R>"<C-R>=<SID>tagextras()<CR>><CR></<C-R>"><Esc>O
+  imap <silent> <buffer> <C-r># <C-R>=<SID>charsetTag()<CR>
+  inoremap <silent> <buffer> <SID>HtmlComplete <C-R>=<SID>htmlEn()<CR><C-r><C-O><C-P><C-R>=<SID>htmlDis()<CR><C-N>
+  imap     <buffer> <C-r>H <SID>HtmlComplete
+  inoremap <silent> <buffer> <C-r>$ <C-R>=<SID>javascriptIncludeTag()<CR>
+  inoremap <silent> <buffer> <C-r>@ <C-R>=<SID>stylesheetTag()<CR>
+  inoremap <silent> <buffer> <C-r><Space> <Esc>ciW<Lt><C-R>"<C-R>=<SID>tagextras()<CR>></<C-R>"><Esc>b2hi
+  inoremap <silent> <buffer> <C-r><CR> <Esc>ciW<Lt><C-R>"<C-R>=<SID>tagextras()<CR>><CR></<C-R>"><Esc>O
   if exists("&omnifunc")
-    inoremap <silent> <buffer> <C-X>/ <Lt>/<C-R>=<SID>htmlEn()<CR><C-X><C-O><C-R>=<SID>htmlDis()<CR><C-F>
+    inoremap <silent> <buffer> <C-r>/ <Lt>/<C-R>=<SID>htmlEn()<CR><C-r><C-O><C-R>=<SID>htmlDis()<CR><C-F>
     if exists(":XMLns")
       XMLns xhtml10s
     endif
   else
-    inoremap <silent> <buffer> <C-X>/ <Lt>/><Left>
+    inoremap <silent> <buffer> <C-r>/ <Lt>/><Left>
   endif
   let g:surround_{char2nr("p")} = "<p>\n\t\r\n</p>"
   let g:surround_{char2nr("d")} = "<div\1div: \r^[^ ]\r &\1>\n\t\r\n</div>"
-  imap <buffer> <C-X><C-_> <C-X>/
-  imap <buffer> <SID>ragtagOopen    <C-X><Lt><Space>
-  imap <buffer> <SID>ragtagOclose   <Space><C-X>><Left><Left>
+  imap <buffer> <C-r><C-_> <C-r>/
+  imap <buffer> <SID>ragtagOopen    <C-r><Lt><Space>
+  imap <buffer> <SID>ragtagOclose   <Space><C-r>><Left><Left>
   if &ft == "php"
-    inoremap <buffer> <C-X><Lt> <?php
-    inoremap <buffer> <C-X>>    ?>
+    inoremap <buffer> <C-r><Lt> <?php
+    inoremap <buffer> <C-r>>    ?>
     inoremap <buffer> <SID>ragtagOopen    <?php<Space>echo<Space>
     let b:surround_45 = "<?php \r ?>"
     let b:surround_61 = "<?php echo \r ?>"
   elseif &ft == "htmltt" || &ft == "tt2html"
-    inoremap <buffer> <C-X><Lt> [%
-    inoremap <buffer> <C-X>>    %]
+    inoremap <buffer> <C-r><Lt> [%
+    inoremap <buffer> <C-r>>    %]
     let b:surround_45  = "[% \r %]"
     let b:surround_61  = "[% \r %]"
     if !exists("b:surround_101")
@@ -85,108 +85,108 @@ function! s:Init()
   elseif &ft == "mustache"
     inoremap <buffer> <SID>ragtagOopen    {{<Space>
     inoremap <buffer> <SID>ragtagOclose   <Space>}}<Left><Left>
-    inoremap <buffer> <C-X><Lt> {{
-    inoremap <buffer> <C-X>>    }}
+    inoremap <buffer> <C-r><Lt> {{
+    inoremap <buffer> <C-r>>    }}
     let b:surround_45 = "{{ \r }}"
     let b:surround_61 = "{{ \r }}"
   elseif &ft =~ "django" || &ft == "liquid" || &ft == 'htmljinja'
     inoremap <buffer> <SID>ragtagOopen    {{<Space>
     inoremap <buffer> <SID>ragtagOclose   <Space>}}<Left><Left>
-    inoremap <buffer> <C-X><Lt> {%
-    inoremap <buffer> <C-X>>    %}
+    inoremap <buffer> <C-r><Lt> {%
+    inoremap <buffer> <C-r>>    %}
     let b:surround_45 = "{% \r %}"
     let b:surround_61 = "{{ \r }}"
   elseif &ft == "mason"
     inoremap <buffer> <SID>ragtagOopen    <&<Space>
     inoremap <buffer> <SID>ragtagOclose   <Space>&><Left><Left>
-    inoremap <buffer> <C-X><Lt> <%
-    inoremap <buffer> <C-X>>    %>
+    inoremap <buffer> <C-r><Lt> <%
+    inoremap <buffer> <C-r>>    %>
     let b:surround_45 = "<% \r %>"
     let b:surround_61 = "<& \r &>"
   elseif &ft == "cf"
     inoremap <buffer> <SID>ragtagOopen    <cfoutput>
     inoremap <buffer> <SID>ragtagOclose   </cfoutput><Left><C-Left><Left>
-    inoremap <buffer> <C-X><Lt> <cf
-    inoremap <buffer> <C-X>>    >
+    inoremap <buffer> <C-r><Lt> <cf
+    inoremap <buffer> <C-r>>    >
     let b:surround_45 = "<cf\r>"
     let b:surround_61 = "<cfoutput>\r</cfoutput>"
   elseif &ft =~ '\<smarty\>'
     inoremap <buffer> <SID>ragtagOopen    {
     inoremap <buffer> <SID>ragtagOclose   }
-    inoremap <buffer> <C-X><Lt> {
-    inoremap <buffer> <C-X>>    }
+    inoremap <buffer> <C-r><Lt> {
+    inoremap <buffer> <C-r>>    }
     let b:surround_45 = "{\r}"
     let b:surround_61 = "{\r}"
   else
     inoremap <buffer> <SID>ragtagOopen    <%=<Space>
-    inoremap <buffer> <C-X><Lt> <%
-    inoremap <buffer> <C-X>>    %>
+    inoremap <buffer> <C-r><Lt> <%
+    inoremap <buffer> <C-r>>    %>
     let b:surround_45 = "<% \r %>"
     let b:surround_61 = "<%= \r %>"
   endif
-  imap <script> <buffer> <C-X>= <SID>ragtagOopen<SID>ragtagOclose<Left>
-  imap <script> <buffer> <C-X>+ <C-V><NL><Esc>I<SID>ragtagOopen<Esc>A<SID>ragtagOclose<Esc>F<NL>s
+  imap <script> <buffer> <C-r>= <SID>ragtagOopen<SID>ragtagOclose<Left>
+  imap <script> <buffer> <C-r>+ <C-V><NL><Esc>I<SID>ragtagOopen<Esc>A<SID>ragtagOclose<Esc>F<NL>s
   " <%\n\n%>
   if &ft == "cf"
-    inoremap <buffer> <C-X>] <cfscript><CR></cfscript><Esc>O
+    inoremap <buffer> <C-r>] <cfscript><CR></cfscript><Esc>O
   elseif &ft == "mason"
-    inoremap <buffer> <C-X>] <%perl><CR></%perl><Esc>O
+    inoremap <buffer> <C-r>] <%perl><CR></%perl><Esc>O
   elseif &ft == "html" || &ft == "xhtml" || &ft == "xml"
-    imap     <buffer> <C-X>] <script<C-R>=<SID>javascriptType()<CR>><CR></script><Esc>O
+    imap     <buffer> <C-r>] <script<C-R>=<SID>javascriptType()<CR>><CR></script><Esc>O
   else
-    imap     <buffer> <C-X>] <C-X><Lt><CR><C-X>><Esc>O
+    imap     <buffer> <C-r>] <C-r><Lt><CR><C-r>><Esc>O
   endif
   " <% %>
   if &ft =~ '\<eruby\>'
-    inoremap  <buffer> <C-X>- <%<Space><Space>%><Esc>2hi
-    inoremap  <buffer> <C-X>_ <C-V><NL><Esc>I<%<Space><Esc>A<Space>%><Esc>F<NL>s
+    inoremap  <buffer> <C-r>- <%<Space><Space>%><Esc>2hi
+    inoremap  <buffer> <C-r>_ <C-V><NL><Esc>I<%<Space><Esc>A<Space>%><Esc>F<NL>s
   elseif &ft == "cf"
-    inoremap  <buffer> <C-X>- <cf><Left>
-    inoremap  <buffer> <C-X>_ <cfset ><Left>
+    inoremap  <buffer> <C-r>- <cf><Left>
+    inoremap  <buffer> <C-r>_ <cfset ><Left>
   elseif &ft =~ '\<smarty\>'
-    imap <buffer> <C-X>- <C-X><Lt><C-X>><Esc>i
-    imap <buffer> <C-X>_ <C-V><NL><Esc>I<C-X><Lt><Esc>A<C-X>><Esc>F<NL>s
+    imap <buffer> <C-r>- <C-r><Lt><C-r>><Esc>i
+    imap <buffer> <C-r>_ <C-V><NL><Esc>I<C-r><Lt><Esc>A<C-r>><Esc>F<NL>s
   else
-    imap <buffer> <C-X>- <C-X><Lt><Space><Space><C-X>><Esc>2hi
-    imap <buffer> <C-X>_ <C-V><NL><Esc>I<C-X><Lt><Space><Esc>A<Space><C-X>><Esc>F<NL>s
+    imap <buffer> <C-r>- <C-r><Lt><Space><Space><C-r>><Esc>2hi
+    imap <buffer> <C-r>_ <C-V><NL><Esc>I<C-r><Lt><Space><Esc>A<Space><C-r>><Esc>F<NL>s
   endif
   " Comments
   if &ft =~ '^asp'
-    imap <buffer> <C-X>' <C-X><Lt>'<Space><Space><C-X>><Esc>2hi
-    imap <buffer> <C-X>" <C-V><NL><Esc>I<C-X><Lt>'<Space><Esc>A<Space><C-X>><Esc>F<NL>s
-    let b:surround_35 = maparg("<C-X><Lt>","i")."' \r ".maparg("<C-X>>","i")
+    imap <buffer> <C-r>' <C-r><Lt>'<Space><Space><C-r>><Esc>2hi
+    imap <buffer> <C-r>" <C-V><NL><Esc>I<C-r><Lt>'<Space><Esc>A<Space><C-r>><Esc>F<NL>s
+    let b:surround_35 = maparg("<C-r><Lt>","i")."' \r ".maparg("<C-r>>","i")
   elseif &ft == "jsp"
-    inoremap <buffer> <C-X>'     <Lt>%--<Space><Space>--%><Esc>4hi
-    inoremap <buffer> <C-X>"     <C-V><NL><Esc>I<%--<Space><Esc>A<Space>--%><Esc>F<NL>s
+    inoremap <buffer> <C-r>'     <Lt>%--<Space><Space>--%><Esc>4hi
+    inoremap <buffer> <C-r>"     <C-V><NL><Esc>I<%--<Space><Esc>A<Space>--%><Esc>F<NL>s
     let b:surround_35 = "<%-- \r --%>"
   elseif &ft == "cf"
-    inoremap <buffer> <C-X>'     <Lt>!---<Space><Space>---><Esc>4hi
-    inoremap <buffer> <C-X>"     <C-V><NL><Esc>I<!---<Space><Esc>A<Space>---><Esc>F<NL>s
+    inoremap <buffer> <C-r>'     <Lt>!---<Space><Space>---><Esc>4hi
+    inoremap <buffer> <C-r>"     <C-V><NL><Esc>I<!---<Space><Esc>A<Space>---><Esc>F<NL>s
     setlocal commentstring=<!---%s--->
     let b:surround_35 = "<!--- \r --->"
   elseif &ft == "html" || &ft == "xml" || &ft == "xhtml"
-    inoremap <buffer> <C-X>'     <Lt>!--<Space><Space>--><Esc>3hi
-    inoremap <buffer> <C-X>"     <C-V><NL><Esc>I<!--<Space><Esc>A<Space>--><Esc>F<NL>s
+    inoremap <buffer> <C-r>'     <Lt>!--<Space><Space>--><Esc>3hi
+    inoremap <buffer> <C-r>"     <C-V><NL><Esc>I<!--<Space><Esc>A<Space>--><Esc>F<NL>s
     let b:surround_35 = "<!-- \r -->"
   elseif &ft == "django" || &ft == "htmldjango" || &ft == 'htmljinja'
-    inoremap <buffer> <C-X>'     {#<Space><Space>#}<Esc>2hi
-    inoremap <buffer> <C-X>"     <C-V><NL><Esc>I<C-X>{#<Space><Esc>A<Space>#}<Esc>F<NL>s
+    inoremap <buffer> <C-r>'     {#<Space><Space>#}<Esc>2hi
+    inoremap <buffer> <C-r>"     <C-V><NL><Esc>I<C-r>{#<Space><Esc>A<Space>#}<Esc>F<NL>s
     let b:surround_35 = "{# \r #}"
   elseif &ft == "liquid"
-    inoremap <buffer> <C-X>'     {%<Space>comment<Space>%}{%<Space>endcomment<Space>%}<Esc>15hi
-    inoremap <buffer> <C-X>"     <C-V><NL><Esc>I<C-X>{%<Space>comment<Space>%}<Esc>A{%<Space>endcomment<Space>%}<Esc>F<NL>s
+    inoremap <buffer> <C-r>'     {%<Space>comment<Space>%}{%<Space>endcomment<Space>%}<Esc>15hi
+    inoremap <buffer> <C-r>"     <C-V><NL><Esc>I<C-r>{%<Space>comment<Space>%}<Esc>A{%<Space>endcomment<Space>%}<Esc>F<NL>s
     let b:surround_35 = "{% comment %}\r{% endcomment %}"
   elseif &ft =~ '\<smarty\>'
-    inoremap <buffer> <C-X>'     {*<Space><Space>*}<Esc>2hi
-    inoremap <buffer> <C-X>"     <C-V><NL><Esc>I<C-X>{*<Space><Esc>A<Space>*}<Esc>F<NL>s
+    inoremap <buffer> <C-r>'     {*<Space><Space>*}<Esc>2hi
+    inoremap <buffer> <C-r>"     <C-V><NL><Esc>I<C-r>{*<Space><Esc>A<Space>*}<Esc>F<NL>s
     let b:surround_35 = "{* \r *}"
   else
-    imap <buffer> <C-X>' <C-X><Lt>#<Space><Space><C-X>><Esc>2hi
-    imap <buffer> <C-X>" <C-V><NL><Esc>I<C-X><Lt>#<Space><Esc>A<Space><C-X>><Esc>F<NL>s
-    let b:surround_35 = maparg("<C-X><Lt>","i")."# \r ".maparg("<C-X>>","i")
+    imap <buffer> <C-r>' <C-r><Lt>#<Space><Space><C-r>><Esc>2hi
+    imap <buffer> <C-r>" <C-V><NL><Esc>I<C-r><Lt>#<Space><Esc>A<Space><C-r>><Esc>F<NL>s
+    let b:surround_35 = maparg("<C-r><Lt>","i")."# \r ".maparg("<C-r>>","i")
   endif
-  imap <buffer> <C-X>%           <Plug>ragtagUrlEncode
-  imap <buffer> <C-X>&           <Plug>ragtagXmlEncode
+  imap <buffer> <C-r>%           <Plug>ragtagUrlEncode
+  imap <buffer> <C-r>&           <Plug>ragtagXmlEncode
   imap <buffer> <C-V>%           <Plug>ragtagUrlV
   imap <buffer> <C-V>&           <Plug>ragtagXmlV
   if !exists("b:did_indent")
@@ -531,10 +531,10 @@ inoremap <silent> <Plug>ragtagUrlV      <C-R>=<SID>urlv()<CR>
 inoremap <silent> <Plug>ragtagXmlV      <C-R>="&#".getchar().";"<CR>
 
 if exists("g:ragtag_global_maps")
-  imap     <C-X>H      <Plug>ragtagHtmlComplete
-  imap     <C-X>/    </<Plug>ragtagHtmlComplete
-  imap     <C-X>%      <Plug>ragtagUrlEncode
-  imap     <C-X>&      <Plug>ragtagXmlEncode
+  imap     <C-r>H      <Plug>ragtagHtmlComplete
+  imap     <C-r>/    </<Plug>ragtagHtmlComplete
+  imap     <C-r>%      <Plug>ragtagUrlEncode
+  imap     <C-r>&      <Plug>ragtagXmlEncode
   imap     <C-V>%      <Plug>ragtagUrlV
   imap     <C-V>&      <Plug>ragtagXmlV
 endif
